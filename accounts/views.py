@@ -25,45 +25,19 @@ def profile(request):
         form = UserProfileForm(instance=request.user)
     return render(request, 'accounts/profile.html', {'form': form})
 
-# def register(request):
-#     if request.method == 'POST':
-#         form = CustomUserCreationForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             user = form.save()
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password1')
-#             user = authenticate(username=username, password=password)
-#             login(request, user)
-#             return redirect('home')
-#     else:
-#         form = CustomUserCreationForm()
-#     return render(request, 'accounts/register.html', {'form': form})
-
-# def register(request):
-#     if request.method == 'POST':
-#         form = CustomUserCreationForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             user = form.save(commit=False)
-#             if not user.email:  # If email is empty
-#                 user.email = None  # Set email to None to avoid empty string duplicates
-#             user.save()
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password1')
-#             user = authenticate(username=username, password=password)
-#             login(request, user)
-#             return redirect('home')
-#     else:
-#         form = CustomUserCreationForm()
-#     return render(request, 'accounts/register.html', {'form': form})
-
-
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from django.contrib.auth import logout
-from .forms import CustomUserCreationForm, UserProfileForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout as auth_logout
-from .models import UserProfile
+    # def register(request):
+    #     if request.method == 'POST':
+    #         form = CustomUserCreationForm(request.POST, request.FILES)
+    #         if form.is_valid():
+    #             user = form.save()
+    #             username = form.cleaned_data.get('username')
+    #             password = form.cleaned_data.get('password1')
+    #             user = authenticate(username=username, password=password)
+    #             login(request, user)
+    #             return redirect('home')
+    #     else:
+    #         form = CustomUserCreationForm()
+    #     return render(request, 'accounts/register.html', {'form': form})
 
 def register(request):
     if request.method == 'POST':
@@ -74,20 +48,15 @@ def register(request):
                 user.email = None  # Set email to None to avoid empty string duplicates
             user.save()
             username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')  # Use password1 here
+            password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            else:
-                print("Authentication failed")
-        else:
-            print("Form errors:", form.errors)  # Print form errors for debugging
+            login(request, user)
+            return redirect('home')
     else:
         form = CustomUserCreationForm()
     return render(request, 'accounts/register.html', {'form': form})
 
-    
+
 from django.shortcuts import render, get_object_or_404
 from .models import UserProfile
 

@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import home, create_post, like_post,about,contact,add_comment,save_post,saved_posts
+from .views import home, create_post, like_post,about,contact,add_comment,save_post,saved_posts,setting
 from . import views
 urlpatterns = [
     path('', home, name='home'),
     path('about/', about, name='about'), 
     path('contact/', contact, name='contact'),
+    path('setting/', setting, name='setting'),
     path('create/', create_post, name='create_post'),
     path('like/<int:post_id>/', like_post, name='like_post'),
     path('save/<int:post_id>/', save_post, name='save_post'),

@@ -18,6 +18,8 @@ def home(request):
 
 def about(request): 
     return render(request, 'posts/about.html') 
+def setting(request): 
+    return render(request, 'posts/setting.html') 
 
 def contact(request): 
     return render(request, 'posts/contact.html') 
