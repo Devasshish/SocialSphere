@@ -22,22 +22,51 @@
             min-height: 100vh;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             flex-direction: column;
+            overflow: hidden;
         }
 
+        /* Improved Back Button */
         .back-button {
-            background: #4070f4;
+            background: linear-gradient(135deg, #6e8efb 0%, #4070f4 100%);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 24px;
+            border-radius: 30px;
             font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             margin-top: 20px;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(64, 112, 244, 0.3);
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.5s ease;
+        }
+
+        .back-button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
         }
 
         .back-button:hover {
-            background: #2d62f3;
+            background: linear-gradient(135deg, #4070f4 0%, #2d62f3 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(64, 112, 244, 0.5);
+        }
+
+        .back-button:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 15px rgba(64, 112, 244, 0.3);
         }
 
         .contact-container {
@@ -49,12 +78,7 @@
             padding: 40px;
             backdrop-filter: blur(10px);
             transform-style: preserve-3d;
-            transition: all 0.3s ease;
-        }
-
-        .contact-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            opacity: 1; /* Ensure it's visible */
         }
 
         .contact-container h2 {
@@ -75,6 +99,7 @@
         .contact-form .input-group {
             position: relative;
             margin-bottom: 30px;
+            opacity: 1; /* Ensure it's visible */
         }
 
         .contact-form .input-group label {
@@ -132,6 +157,12 @@
             transform: translateY(-50%);
             color: #aaa;
             font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form .input-group:hover .icon {
+            transform: translateY(-50%) scale(1.2);
+            color: #4070f4;
         }
 
         .contact-form .button {
@@ -147,27 +178,13 @@
             cursor: pointer;
             overflow: hidden;
             transition: all 0.3s ease;
+            opacity: 1; /* Ensure it's visible */
         }
 
         .contact-form .button:hover {
             background: linear-gradient(135deg, #4070f4 0%, #2d62f3 100%);
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(64, 112, 244, 0.4);
-        }
-
-        .contact-form .button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: all 0.5s ease;
-        }
-
-        .contact-form .button:hover::before {
-            left: 100%;
         }
 
         @media (max-width: 450px) {
@@ -179,7 +196,7 @@
     </style>
     </head>
     <body>
-        <!-- Go Back Button -->
+        <!-- Improved Back Button -->
         <button class="back-button" onclick="window.location.href='/'">Go Back
             to Homepage</button>
 
@@ -222,12 +239,50 @@
             </form>
         </div>
 
+        <!-- GSAP Library -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
         <script>
+        // GSAP Animations
+        gsap.from(".contact-container", {
+            duration: 1,
+            opacity: 0,
+            y: 50,
+            ease: "power2.out",
+            delay: 0.5,
+        });
+
+        gsap.from(".input-group", {
+            duration: 0.8,
+            opacity: 0,
+            y: 30,
+            stagger: 0.2,
+            ease: "power2.out",
+            delay: 1,
+        });
+
+        gsap.from(".button", {
+            duration: 1,
+            opacity: 0,
+            y: 20,
+            ease: "power2.out",
+            delay: 1.5,
+        });
+
         // Form submission handling
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             const contactButton = document.getElementById('contactButton');
             contactButton.disabled = true;
             contactButton.innerHTML = 'Sending...';
+
+            // GSAP animation for button click
+            gsap.to(contactButton, {
+                duration: 0.5,
+                scale: 0.9,
+                yoyo: true,
+                repeat: 1,
+                ease: "power2.inOut",
+            });
         });
     </script>
     </body>
