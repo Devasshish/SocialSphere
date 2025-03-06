@@ -129,3 +129,19 @@ def save_post(request, post_id):
 def saved_posts(request):
     saved_posts = SavedPost.objects.filter(user=request.user)
     return render(request, 'posts/saved_posts.html', {'saved_posts': saved_posts})
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from .models import Post, SavedPost
+
+@login_required
+def unsave_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    saved_post = SavedPost.objects.filter(user=request.user, post=post)
+
+    if saved_post.exists():
+        saved_post.delete()
+    
+    return redirect('saved_posts')  # Redirects to the saved posts page
+
